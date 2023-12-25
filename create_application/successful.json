@@ -1,0 +1,8 @@
+{
+    "httpMethod": "POST",
+    "headers": {
+      "Cookie": "user=test_user",
+      "Content-Type": "application/json"
+    },
+    "body": "{\"appid\": \"app1\", \"name\": \"Application 1\", \"created_at\": \"2022-01-01\", \"updated_at\": \"2022-01-01\", \"description\": \"This is a test application\", \"conversions\": [{\"value\": \"test1\"}, {\"value\": \"test2\"}]}"
+  }
