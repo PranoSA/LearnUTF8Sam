@@ -12,6 +12,21 @@ Globals:
     LoggingConfig:
       LogFormat: JSON
 Resources:
+  UnicodeTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Unicode
+      AttributeDefinitions:
+      - AttributeName: char
+        AttributeType: S
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+      KeySchema:
+      - AttributeName: char
+        KeyType: HASH
+    Metadata:
+      SamResourceId: UnicodeTable
   ApplicationsTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -56,7 +71,7 @@ Resources:
       Handler: app.lambda_handler
       Runtime: python3.8
       Policies:
-      - DynamoDBReadPolicy:
+      - DynamoDBCrudPolicy:
           TableName:
             Ref: ApplicationsTable
       Events:
@@ -106,7 +121,7 @@ Resources:
   HelloWorldFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://serverlessadminbucket/c6ce8fa8b5a97dd022ecd006536eb5a4
+      CodeUri: s3://serverlessadminbucket/66a43403ed45e1ba3894d25fc108a14e
       Handler: app.lambda_handler
       Runtime: python3.8
       Architectures:
@@ -119,3 +134,25 @@ Resources:
             Method: get
     Metadata:
       SamResourceId: HelloWorldFunction
+  UnicodeInfoFunction:
+    Metadata:
+      BuildMethod: python3.8
+      BuildCommand: pip install -r requirements.txt -t get_char_info/
+      SamResourceId: UnicodeInfoFunction
+    Type: AWS::Serverless::Function
+    Properties:
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: UnicodeTable
+      CodeUri: s3://serverlessadminbucket/81a259fcb8a79acc262a5f3f01c7a1ab
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Architectures:
+      - x86_64
+      Events:
+        UnicodeInfo:
+          Type: Api
+          Properties:
+            Path: /api/v1/unicode/{char}
+            Method: get

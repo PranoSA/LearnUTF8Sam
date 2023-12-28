@@ -27,7 +27,7 @@ Resources:
         WriteCapacityUnits: 1
       KeySchema:
         - AttributeName: char
-          KeyType: S
+          KeyType: HASH
   ApplicationsTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -68,7 +68,7 @@ Resources:
       Handler: app.lambda_handler
       Runtime: python3.8
       Policies:
-        - DynamoDBReadPolicy:
+        - DynamoDBCrudPolicy:
             TableName: !Ref ApplicationsTable
       Events:
         GetApplications:
@@ -91,6 +91,7 @@ Resources:
           Properties:
             Path: /api/v1/application/{applicationid}
             Method: put
+
   GetApplicationFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -121,8 +122,14 @@ Resources:
             Path: /hello
             Method: get
   UnicodeInfoFunction:
+    Metadata:
+      BuildMethod: python3.8
+      BuildCommand: pip install -r requirements.txt -t get_char_info/
     Type: AWS::Serverless::Function
     Properties:
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UnicodeTable
       CodeUri: get_char_info/
       Handler: app.lambda_handler
       Runtime: python3.8
@@ -134,7 +141,7 @@ Resources:
           Properties:
             Path: /api/v1/unicode/{char}
             Method: get
-
+      
 #Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
