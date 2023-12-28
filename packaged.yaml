@@ -7,7 +7,7 @@ Description: 'unicode_exam_api
   '
 Globals:
   Function:
-    Timeout: 3
+    Timeout: 60
     MemorySize: 128
     LoggingConfig:
       LogFormat: JSON
@@ -34,7 +34,7 @@ Resources:
   CreateApplicationFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-407fbfb3/myprefix/8ff312c0c9e8035cf005ef4c538e6d44
+      CodeUri: s3://serverlessadminbucket/d1aeb9467b408aa507bb0d6ef8ebc0f0
       Handler: app.lambda_handler
       Runtime: python3.8
       Policies:
@@ -52,7 +52,7 @@ Resources:
   GetApplicationsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-407fbfb3/myprefix/048476faa46f6ad6fb1b4203aa227b1c
+      CodeUri: s3://serverlessadminbucket/048476faa46f6ad6fb1b4203aa227b1c
       Handler: app.lambda_handler
       Runtime: python3.8
       Policies:
@@ -70,7 +70,7 @@ Resources:
   EditApplicationFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-407fbfb3/myprefix/4a939ec183a815a0679a99a1d16d1641
+      CodeUri: s3://serverlessadminbucket/4a939ec183a815a0679a99a1d16d1641
       Handler: app.lambda_handler
       Runtime: python3.8
       Policies:
@@ -88,7 +88,7 @@ Resources:
   GetApplicationFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-407fbfb3/myprefix/422b6dd35ed6fcbfc565aa94eac64098
+      CodeUri: s3://serverlessadminbucket/422b6dd35ed6fcbfc565aa94eac64098
       Handler: app.lambda_handler
       Runtime: python3.8
       Policies:
@@ -106,7 +106,7 @@ Resources:
   HelloWorldFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-407fbfb3/myprefix/c6ce8fa8b5a97dd022ecd006536eb5a4
+      CodeUri: s3://serverlessadminbucket/c6ce8fa8b5a97dd022ecd006536eb5a4
       Handler: app.lambda_handler
       Runtime: python3.8
       Architectures:
@@ -119,23 +119,3 @@ Resources:
             Method: get
     Metadata:
       SamResourceId: HelloWorldFunction
-Outputs:
-  TableName:
-    Description: The name of the DynamoDB table
-    Value: !Ref ApplicationsTable
-  HelloWorldApi:
-    Description: API Gateway endpoint URL for Prod stage for Hello World function
-    Value:
-      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/
-  HelloWorldFunction:
-    Description: Hello World Lambda Function ARN
-    Value:
-      Fn::GetAtt:
-      - HelloWorldFunction
-      - Arn
-  HelloWorldFunctionIamRole:
-    Description: Implicit IAM Role created for Hello World function
-    Value:
-      Fn::GetAtt:
-      - HelloWorldFunctionRole
-      - Arn

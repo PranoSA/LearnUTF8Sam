@@ -1,8 +1,8 @@
 import sys
+#from unicode_exam_api.create_application.app import lambda_handler
+#import unicode_exam_api.create_application.app as app
 
-from unicode_exam_api.create_application.app import lambda_handler
-print(sys.path)
-
+from app import lambda_handler
 
 import boto3
 import json
@@ -12,7 +12,6 @@ from moto import mock_dynamodb
 import moto as moto 
 #from create_application import lambda_handler  # replace with your actual import
 
-import __init__ 
 
 @mock_dynamodb
 class TestCreateApplicationFunction(unittest.TestCase):

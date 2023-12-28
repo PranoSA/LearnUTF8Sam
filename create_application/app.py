@@ -6,12 +6,12 @@ import os
 def lambda_handler(event, context):
 
     if 'AWS_SAM_LOCAL' in os.environ:
-        #dynamodb = boto3.resource('dynamodb', endpoint_url='http://localhost:4566', region_name='us-east-1')
-        dynamodb = boto3.resource('dynamodb', endpoint_url='http://172.17.0.1:4566', region_name='us-east-1')
+        dynamodb = boto3.resource('dynamodb', endpoint_url='http://172.20.128.154:4566', region_name='us-east-1')
+        #dynamodb = boto3.resource('dynamodb', endpoint_url='http://172.17.0.1:4566', region_name='us-east-1')
         #dynamodb = boto3.resource('dynamodb', endpoint_url='http://sd1230912391294124991.sdsad.123121:4566', region_name='us-east-1')
         print('local \n')
     else:
-        dynamodb = boto3.resource('dynamodb',region_name='us-east-1')
+        dynamodb = boto3.resource('dynamodb')
 
     table = dynamodb.Table('Applications')
 

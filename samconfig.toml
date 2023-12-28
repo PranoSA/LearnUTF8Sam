@@ -4,22 +4,22 @@ version = 0.1
 
 [default]
 [default.global.parameters]
-stack_name = "unicode_exam_api"
+stack_name = "unicodeexamapi4"
 
 [default.build.parameters]
 cached = true
 parallel = true
 
 [default.validate.parameters]
-lint = true
+lint = false
 
 [default.deploy.parameters]
 capabilities = "CAPABILITY_IAM"
 confirm_changeset = true
-resolve_s3 = true
+resolve_s3 = false
 
 [default.package.parameters]
-resolve_s3 = true
+resolve_s3 = false
 
 [default.sync.parameters]
 watch = true
