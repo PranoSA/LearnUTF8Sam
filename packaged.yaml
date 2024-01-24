@@ -152,6 +152,8 @@ Resources:
             Method: delete
     Metadata:
       SamResourceId: DeleteApplicationFunction
+      BuildMethod: python3.8
+      BuildCommand: pip install -r requirements.txt -t delete_application/
   UnicodeInfoFunction:
     Metadata:
       BuildMethod: python3.8
@@ -163,7 +165,7 @@ Resources:
       - DynamoDBCrudPolicy:
           TableName:
             Ref: UnicodeTable
-      CodeUri: s3://serverlessadminbucket/f01a7f21905ebeebeae393482ee19493
+      CodeUri: s3://serverlessadminbucket/39ba660e6d0615c1d10584884e6132d9
       Handler: app.lambda_handler
       Runtime: python3.8
       Architectures:
