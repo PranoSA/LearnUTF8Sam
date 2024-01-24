@@ -3,6 +3,7 @@ import boto3
 import os 
 import requests
 from decimal import Decimal
+from urllib.parse import unquote
 
 base_uri = "https://codepoints.net/api/v1/codepoint/"
 
@@ -20,12 +21,10 @@ def lambda_handler(event, context):
         dynamodb = boto3.resource('dynamodb')
 
     #Get Char String From URL
-    char = event['pathParameters']['char']
+    char = unquote(event['pathParameters']['char'])
+    print(char)
     
     #How Does This Work With Unicode?
-
-
-
 
     table = dynamodb.Table('Unicode')
     unicode_value = ord(char)

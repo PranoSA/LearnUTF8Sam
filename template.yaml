@@ -121,6 +121,21 @@ Resources:
           Properties:
             Path: /hello
             Method: get
+  DeleteApplicationFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: delete_application/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ApplicationsTable
+      Events:
+        DeleteApplication:
+          Type: Api
+          Properties:
+            Path: /api/v1/application/{applicationid}
+            Method: delete
   UnicodeInfoFunction:
     Metadata:
       BuildMethod: python3.8

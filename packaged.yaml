@@ -134,6 +134,24 @@ Resources:
             Method: get
     Metadata:
       SamResourceId: HelloWorldFunction
+  DeleteApplicationFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://serverlessadminbucket/0061d84decadae055d15be230921fe91
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: ApplicationsTable
+      Events:
+        DeleteApplication:
+          Type: Api
+          Properties:
+            Path: /api/v1/application/{applicationid}
+            Method: delete
+    Metadata:
+      SamResourceId: DeleteApplicationFunction
   UnicodeInfoFunction:
     Metadata:
       BuildMethod: python3.8
@@ -145,7 +163,7 @@ Resources:
       - DynamoDBCrudPolicy:
           TableName:
             Ref: UnicodeTable
-      CodeUri: s3://serverlessadminbucket/81a259fcb8a79acc262a5f3f01c7a1ab
+      CodeUri: s3://serverlessadminbucket/f01a7f21905ebeebeae393482ee19493
       Handler: app.lambda_handler
       Runtime: python3.8
       Architectures:
