@@ -24,6 +24,12 @@ def lambda_handler(event, context):
         }
     )
 
+    if 'Item' not in response:
+        return {
+            'statusCode': 404,
+            'body': json.dumps('Application not found')
+        }
+
     return {
         'statusCode': 200,
         'body': json.dumps(response['Item'])

@@ -1,5 +1,11 @@
 # unicode_exam_api
 
+# DO NOT FORGET
+
+sam build 
+
+sam deploy  --stack-name unicodeexamapi10 --s3-bucket={bucket} --profile {profiles}
+
 This project contains source code and supporting files for a serverless application that you can deploy with the SAM CLI. It includes the following files and folders.
 
 - hello_world - Code for the application's Lambda function.

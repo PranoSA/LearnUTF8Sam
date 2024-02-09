@@ -2,6 +2,7 @@ import boto3
 import json
 from http import cookies
 import os
+import uuid
 
 def lambda_handler(event, context):
 
@@ -21,14 +22,15 @@ def lambda_handler(event, context):
     user_id = cookie['user'].value
 
     body = json.loads(event['body'])
-    appid = body['appid']
+    #appid = body['appid']
+    appid = str(uuid.uuid4())
     name = body['name']
     created_at = body['created_at']
     updated_at = body['updated_at']
     description = body['description']
     conversions = body['conversions']
 
-    print(table)
+    #print(table)
 
   #  return {
         #'statusCode': 300,
