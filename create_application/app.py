@@ -22,8 +22,15 @@ def lambda_handler(event, context):
     user_id = cookie['user'].value
 
     body = json.loads(event['body'])
+
+    appid = ""
+    #Alter This Behavior Based on the Requested Method 
+    if event['httpMethod'] == "POST":
+        appid = str(uuid.uuid4())
+    if event['httpMethod'] == "PUT":
+        appid = body['appid']
+    
     #appid = body['appid']
-    appid = str(uuid.uuid4())
     name = body['name']
     created_at = body['created_at']
     updated_at = body['updated_at']
@@ -59,14 +66,30 @@ def lambda_handler(event, context):
         print("trying dynamo")
         print(Item)
 
-        table.put_item(
+        response = table.put_item(
             Item=Item,
         )
 
+        if response['ResponseMetadata']['HTTPStatusCode'] != 200:
+            return {
+                'statusCode': 500,
+                'body': json.dumps('Failed to Connect to DynamoDB')
+            }
+        
+        item = table.get_item(
+            Key={
+                'user_id': user_id,
+                'appid': appid
+            }
+        )['Item']
+
+
+
         return {
             'statusCode': 200,
-            'body': json.dumps('Application created successfully!')
+            'body': json.dumps(item)
         }
+    
     except Exception as e:
         print(e)
         return {
