@@ -26,16 +26,24 @@ def lambda_handler(event, context):
     appid = ""
     #NVM, ALter This Behavior Based on Existence of appid in dynamdb
 
-    var = table.get_item(
-        Key={
-            'user_id': user_id,
-            'appid': appid
-        }
-    )
+    # Skip Checking DynamoDB Is appid is empty string
+    
+    body_appid = body['appid']
+    if body_appid != "":
 
-    if 'Item' in var:
-        appid = body['appid']
+        var = table.get_item(
+            Key={
+                'user_id': user_id,
+                'appid': body_appid
+            }
+        )
 
+        if 'Item' in var:
+            appid = body['appid']
+
+        #Ignore What Is In The Body
+        else:
+            appid = str(uuid.uuid4())
     else:
         appid = str(uuid.uuid4())
     
@@ -84,6 +92,7 @@ def lambda_handler(event, context):
                 'body': json.dumps('Failed to Connect to DynamoDB')
             }
         
+
         item = table.get_item(
             Key={
                 'user_id': user_id,
