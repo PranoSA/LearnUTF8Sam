@@ -24,13 +24,21 @@ def lambda_handler(event, context):
     body = json.loads(event['body'])
 
     appid = ""
-    #Alter This Behavior Based on the Requested Method 
-    if event['httpMethod'] == "POST":
-        appid = str(uuid.uuid4())
-    if event['httpMethod'] == "PUT":
+    #NVM, ALter This Behavior Based on Existence of appid in dynamdb
+
+    var = table.get_item(
+        Key={
+            'user_id': user_id,
+            'appid': appid
+        }
+    )
+
+    if 'Item' in var:
         appid = body['appid']
+
+    else:
+        appid = str(uuid.uuid4())
     
-    #appid = body['appid']
     name = body['name']
     created_at = body['created_at']
     updated_at = body['updated_at']
